@@ -10,6 +10,7 @@ function onSubmit(event){
     for (var key in stock){
         document.querySelector('#output').innerHTML += "<li>"+key+": "+stock[key]+"</li>";
     }
+    
 }
 
 submit.addEventListener('click', onSubmit);
