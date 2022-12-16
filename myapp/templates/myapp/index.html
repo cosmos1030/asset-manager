@@ -7,15 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>hello!</h1>
+    <h1>Asset Mananger</h1>
     <form action="/" method="post">
     {% csrf_token %}
-        <input type="text" name="stock_name" placeholder="주식명">
-        <input type="text" name="stock_amount" placeholder="주식수">
+        {% for field in form %}
+            <div class="form-control {% if field.errors %}errors{% endif %}">
+                {{field.label_tag}}
+                {{field}}
+                {{field.errors}}
+            </div>
+        {% endfor %}
         <button>submit</button>
     </form>
-    <p>
-        {{ stock }}
-    </p>
+    <hr>
+    <h2>주식목록</h2>
+    <ul>
+    {% for element in stock_list %}
+        <li>{{element.stock_name}}: {{element.stock_amount}}</li>
+    {% endfor %}
+    </ul>
 </body>
 </html>

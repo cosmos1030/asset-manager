@@ -1,12 +1,26 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+
+from .forms import StockForm
+from .models import Stock
 
 @csrf_exempt
 def index(request, stock=""):
     if request.method == 'GET':
-	    return render(request, 'myapp/index.html')
+        form = StockForm()
+        stock_list = Stock.objects.all()
+        return render(request, 'myapp/index.html', {
+            "form": form,
+            "stock_list": stock_list
+        })
     elif request.method == 'POST':
-        stock_name = request.POST['stock_name']
-        stock_amount = request.POST['stock_amount']
-        return render(request, 'myapp/index.html', {'stock': stock_name})
+        form = StockForm(request.POST)
+
+        if form.is_valid():
+            stock = Stock(
+                stock_name = form.cleaned_data['stock_name'],
+                stock_amount = form.cleaned_data['stock_amount']
+            )
+            stock.save()
+            return HttpResponseRedirect("/")
