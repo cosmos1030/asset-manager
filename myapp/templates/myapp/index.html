@@ -22,8 +22,15 @@
     <hr>
     <h2>주식목록</h2>
     <ul>
+        {% for element in total_amount %}
+        <li>{{element.0}} ({{element.1}}원): {{element.2.stock_amount__sum}}개</li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <h2>주식변동내역</h2>
+    <ul>
     {% for element in stock_list %}
-        <li>{{element.stock_name}}: {{element.stock_amount}}</li>
+        <li>{{element.stock_name}}: {{element.stock_amount}} ({{element.current_date}})</li>
     {% endfor %}
     </ul>
 </body>
