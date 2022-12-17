@@ -14,13 +14,14 @@ from .models import Stock
 def index(request, stock=""):
     if request.method == 'GET':
         form = StockForm()
-        stock_list = Stock.objects.all()
-        total_amount = get_total_amount(stock_list)
-        print(stock_name_to_price('제넥신'))
+        stock_change = Stock.objects.all()
+        stock_list = get_total_amount(stock_change)
+        total_total_price = get_total_total_price(stock_list)
         return render(request, 'myapp/index.html', {
             "form": form,
-            "total_amount": total_amount,
-            "stock_list": stock_list
+            "stock_list": stock_list,
+            "stock_change": stock_change,
+            "total_total_price": total_total_price
         })
         
     elif request.method == 'POST':
@@ -34,17 +35,25 @@ def index(request, stock=""):
             stock.save()
             return HttpResponseRedirect("/")
 
-def get_total_amount(stock_list):
+def get_total_amount(stock_change):
     stock_kinds = []
     total_amount = []
-    for stock in stock_list:
+    for stock in stock_change:
             if stock.stock_name not in stock_kinds:
                 stock_kinds.append(stock.stock_name)
     for stock in stock_kinds:
-        total_amount.append([stock, stock_name_to_price(stock) ,Stock.objects.filter(
-            stock_name=stock).aggregate(Sum('stock_amount'))])
+        stock_price = stock_name_to_price(stock)
+        stock_amount = Stock.objects.filter(stock_name=stock).aggregate(Sum('stock_amount'))['stock_amount__sum']
+        total_price = stock_price * stock_amount
+        total_amount.append([stock, stock_price, stock_amount, total_price])
     return total_amount
-        
+
+def get_total_total_price(total_amount):
+    total_total_price = 0
+    for stock_info in total_amount:
+        total_total_price += stock_info[3]
+    return total_total_price
+
 
 def stock_name_to_code(name):
     df = pd.read_csv("https://raw.githubusercontent.com/cosmos1030/beautifulsoup-study/main/data/nameToCode.csv")
@@ -62,4 +71,5 @@ def stock_code_to_price(code):
 def stock_name_to_price(name):
     code = stock_name_to_code(name)
     price = stock_code_to_price(code)
+    price = int(price.replace(',', ''))
     return price
