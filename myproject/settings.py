@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'common.apps.CommonConfig',
     'myapp',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -123,4 +124,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://8080-cosmos1030-assetmanager-cznzsfe0uw2.ws-us79.gitpod.io', 'https://8000-cosmos1030-assetmanager-bhviv7515q3.ws-us79.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://8000-cosmos1030-assetmanager-4gqigjjfvk7.ws-us79.gitpod.io']
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/'
