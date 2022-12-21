@@ -14,6 +14,7 @@
     <a href="{% url 'common:signup' %}">Sign up</a>
     {% endif %}
 
+    <!-- 주식변동사항 입력 폼 -->
     <form action="/" method="post">
     {% csrf_token %}
         {% for field in form %}
@@ -26,18 +27,22 @@
         <button>submit</button>
     </form>
     <hr>
+
+    <!-- 보유주식목록 -->
     <h2>주식목록</h2>
     <ul>
-        {% for element in stock_list %}
-        <li>{{element.0}} ({{element.1}}원): {{element.2}}주 (총 {{element.3}}원)</li>
+        {% for stock in stock_holding %}
+        <li>{{stock.stock_info.name}} ({{stock.stock_info.current_price}}원): {{stock.amount}}주 (총 {{stock.total_price}}원)</li>
         {% endfor %}
     </ul>
-    <p>총 {{total_total_price}} 원</p>
+    <p>총 {{total_asset}} 원</p>
     <hr>
+
+    <!-- 주식변동내역 -->
     <h2>주식변동내역</h2>
     <ul>
-    {% for element in stock_change %}
-        <li>{{element.stock_name}}: {{element.stock_amount}} ({{element.current_date}})</li>
+    {% for stock in stock_change %}
+        <li>{{stock.name}}: {{stock.amount}} ({{stock.current_date}})</li>
     {% endfor %}
     </ul>
 {% endblock %}

@@ -14,7 +14,7 @@ class Stock_change(models.Model):
 
 class Stock_info(models.Model):
     name = models.CharField(max_length=100)
-    number = models.IntegerField()
+    code = models.IntegerField()
     current_price = models.IntegerField()
     current_date = models.DateField(auto_now_add=True)
 
@@ -23,8 +23,9 @@ class Stock_info(models.Model):
 
 class Stock_holding(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    stock = models.ForeginKey(Stock_info, on_delete=models.CASCADE)
+    stock_info = models.ForeignKey(Stock_info, on_delete=models.CASCADE)
     amount = models.IntegerField()
+    total_price = models.IntegerField()
     current_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
