@@ -3,11 +3,7 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - init: |
-    pip install -r requirements.txt
-    source venv/bin/activate
-  - command: |
-    source venv/bin/activate
+  - init: pip install -r requirements.txt
 
 
 
