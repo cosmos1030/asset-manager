@@ -7,32 +7,37 @@ import requests
 from bs4 import BeautifulSoup as bs
 
 from .forms import StockForm
-from .models import Stock
+from .models import Stock_change, Stock_list
 
 
 @csrf_exempt
 def index(request, stock=""):
     if request.method == 'GET':
         form = StockForm()
-        stock_change = Stock.objects.all()
-        stock_list = get_total_amount(stock_change)
-        total_total_price = get_total_total_price(stock_list)
+        stock_info = Stock_info.objects.all()
+        stock_change = Stock_change.objects.all()
+        total_asset = get_total_asset(stock_info)
         return render(request, 'myapp/index.html', {
             "form": form,
-            "stock_list": stock_list,
+            "stock_list": stock_info,
             "stock_change": stock_change,
-            "total_total_price": total_total_price
+            "total_asset": total_asset
         })
         
     elif request.method == 'POST':
         form = StockForm(request.POST)
 
         if form.is_valid():
-            stock = Stock(
-                stock_name=form.cleaned_data['stock_name'],
-                stock_amount=form.cleaned_data['stock_amount']
+            # 변동 내역에 추가
+            stock_change = Stock_change(
+                name=form.cleaned_data['name'],
+                amount=form.cleaned_data['amount']
             )
-            stock.save()
+            stock_change.save()
+
+            # 주식 정보에 추가
+            stock_info = Stock_info.objects.get(name=stock_change.name)
+            stock_info.amount += stock_change.amount
             return HttpResponseRedirect("/")
 
 def get_total_amount(stock_change):
