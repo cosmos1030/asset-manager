@@ -6,26 +6,26 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup as bs
 
-from .forms import StockForm
-from .models import Stock_change, Stock_list
+from .forms import StockChangeForm
+from .models import Stock_change, Stock_holding
 
 
 @csrf_exempt
 def index(request, stock=""):
     if request.method == 'GET':
-        form = StockForm()
-        stock_info = Stock_info.objects.all()
+        form = StockChangeForm()
+        stock_holding = Stock_holding.objects.all()
         stock_change = Stock_change.objects.all()
-        total_asset = get_total_asset(stock_info)
+        total_asset = get_total_asset(stock_holding)
         return render(request, 'myapp/index.html', {
             "form": form,
-            "stock_list": stock_info,
+            "stock_holding": stock_holding,
             "stock_change": stock_change,
             "total_asset": total_asset
         })
         
     elif request.method == 'POST':
-        form = StockForm(request.POST)
+        form = StockChangeForm(request.POST)
 
         if form.is_valid():
             # 변동 내역에 추가
@@ -35,28 +35,14 @@ def index(request, stock=""):
             )
             stock_change.save()
 
-            # 주식 정보에 추가
-            stock_info = Stock_info.objects.get(name=stock_change.name)
-            stock_info.amount += stock_change.amount
+            # 주식 보유 현황에 추가
+            stock_holding = Stock_holding.objects.get(stock.name=stock_change.name)
+            stock_holding.amount += stock_change.amount
+            stock_holding.save()
             return HttpResponseRedirect("/")
 
-def get_total_amount(stock_change):
-    stock_kinds = []
-    total_amount = []
-    for stock in stock_change:
-            if stock.stock_name not in stock_kinds:
-                stock_kinds.append(stock.stock_name)
-    for stock in stock_kinds:
-        stock_price = stock_name_to_price(stock)
-        stock_amount = Stock.objects.filter(stock_name=stock).aggregate(Sum('stock_amount'))['stock_amount__sum']
-        total_price = stock_price * stock_amount
-        total_amount.append([stock, stock_price, stock_amount, total_price])
-    return total_amount
-
-def get_total_total_price(total_amount):
-    total_total_price = 0
-    for stock_info in total_amount:
-        total_total_price += stock_info[3]
+def get_total_asset(stock_holding):
+    t
     return total_total_price
 
 
