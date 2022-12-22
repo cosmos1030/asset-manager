@@ -67,14 +67,14 @@ def get_stock_info(name):
     return stock_info
 
 def get_stock_holding(stock_info, amount, user):
-    total_price = stock_info.current_price * amount
+    added_price = stock_info.current_price * amount
     try:
-        stock_holding = Stock_holding.objects.get(stock_info__name = stock_info.name)
+        stock_holding = Stock_holding.objects.get(stock_info__name = stock_info.name, owner=user)
         stock_holding.amount += amount
-        stock_holding.total_price = total_price
+        stock_holding.total_price += added_price
     except:
         print('except')
-        stock_holding = Stock_holding(owner=user ,stock_info=get_stock_info(stock_info.name), amount = amount, total_price= total_price)
+        stock_holding = Stock_holding(owner=user ,stock_info=get_stock_info(stock_info.name), amount = amount, total_price= added_price)
     stock_holding.save()
     return stock_holding
 
