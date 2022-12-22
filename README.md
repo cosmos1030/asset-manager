@@ -12,5 +12,6 @@
 - 유저별로 데이터베이스 주식수 다르게 하기
 
 ## 참고 사이트
-https://wikidocs.net/71306
-https://dowtech.tistory.com/3
+- https://wikidocs.net/71306
+- https://dowtech.tistory.com/3
+- https://xiang32.tistory.com/23
