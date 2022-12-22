@@ -124,7 +124,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-cosmos1030-assetmanager-4gqigjjfvk7.ws-us79.gitpod.io','https://8000-cosmos1030-assetmanager-xcenj8qjjdd.ws-us80.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://8000-cosmos1030-assetmanager-o2mj0dseqad.ws-us80.gitpod.io']
 
 LOGIN_REDIRECT_URL = '/'
 

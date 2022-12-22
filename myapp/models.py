@@ -10,7 +10,7 @@ class Stock_change(models.Model):
     current_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.stock_name}"
+        return f"{self.name}"
 
 class Stock_info(models.Model):
     name = models.CharField(max_length=100)
@@ -19,7 +19,7 @@ class Stock_info(models.Model):
     current_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.stock_name}"
+        return f"{self.name}"
 
 class Stock_holding(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -29,4 +29,4 @@ class Stock_holding(models.Model):
     current_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.stock_name}"
+        return f"{self.stock_info.name}"

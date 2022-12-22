@@ -11,11 +11,13 @@ from .models import Stock_change, Stock_holding, Stock_info
 
 
 @csrf_exempt
-def index(request, stock=""):
+def index(request):
+    if request.user.is_anonymous:
+        return HttpResponseRedirect("common/login/")
     if request.method == 'GET':
         form = StockChangeForm()
-        stock_holding = Stock_holding.objects.all()
-        stock_change = Stock_change.objects.all()
+        stock_holding = Stock_holding.objects.filter(owner =request.user)
+        stock_change = Stock_change.objects.filter(owner =request.user)
         total_asset = get_total_asset(stock_holding)
         return render(request, 'myapp/index.html', {
             "form": form,
@@ -57,7 +59,7 @@ def get_stock_info(name):
     price = stock_code_to_price(code)
     price = int(price.replace(',', ''))
     try:
-        stock_info = Stock_info.objects.get(name==name)
+        stock_info = Stock_info.objects.get(name=name)
         stock_info.price = price
     except:
         stock_info = Stock_info(name=name, code=code, current_price= price)
@@ -67,10 +69,11 @@ def get_stock_info(name):
 def get_stock_holding(stock_info, amount, user):
     total_price = stock_info.current_price * amount
     try:
-        stock_holding = Stock_holding.objects.get(stock_info == stock_info)
+        stock_holding = Stock_holding.objects.get(stock_info__name = stock_info.name)
         stock_holding.amount += amount
         stock_holding.total_price = total_price
     except:
+        print('except')
         stock_holding = Stock_holding(owner=user ,stock_info=get_stock_info(stock_info.name), amount = amount, total_price= total_price)
     stock_holding.save()
     return stock_holding
