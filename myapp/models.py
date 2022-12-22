@@ -26,6 +26,7 @@ class Stock_holding(models.Model):
     stock_info = models.ForeignKey(Stock_info, on_delete=models.CASCADE)
     amount = models.IntegerField()
     total_price = models.IntegerField()
+    percentage = models.IntegerField(null=True)
     current_date = models.DateField(auto_now_add=True)
 
     def __str__(self):

@@ -19,7 +19,7 @@
     <h2>주식목록</h2>
     <ul>
         {% for stock in stock_holding %}
-        <li>{{stock.stock_info.name}} ({{stock.stock_info.current_price}}원): {{stock.amount}}주 (총 {{stock.total_price}}원)</li>
+        <li>{{stock.stock_info.name}} ({{stock.stock_info.current_price}}원): {{stock.amount}}주 (총 {{stock.total_price}}원)({{stock.percentage}}%)</li>
         {% endfor %}
     </ul>
     <p>총 {{total_asset}} 원</p>

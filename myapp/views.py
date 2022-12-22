@@ -45,8 +45,16 @@ def index(request):
             stock_info = get_stock_info(name)
 
             # 주식 보유 현황에 반영
-            stock_holding = get_stock_holding(stock_info, amount, request.user)
+            get_stock_holding(stock_info, amount, request.user)
+            user_holding = Stock_holding.objects.filter(owner =request.user)
+            adjust_percentage(user_holding)
             return HttpResponseRedirect("/")
+    
+def adjust_percentage(user_holding):
+    total_asset = get_total_asset(user_holding)
+    for each_stock in user_holding:
+        each_stock.percentage = each_stock.total_price / total_asset * 100
+        each_stock.save()
 
 def get_total_asset(stock_holding):
     total_asset = 0
