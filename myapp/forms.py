@@ -6,4 +6,4 @@ class StockChangeForm(forms.Form):
         "required": "Your name must not be empty!",
         "max_length": "Please enter a shorter name!"
     })
-    amount = forms.IntegerField(label="How many?")
+    amount = forms.IntegerField(label="How many")

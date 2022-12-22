@@ -1,32 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Asset Mananger</h1>
-
-    <!-- 로그인 -->
-    {% if user.is_authenticated %}
-    <a href="{% url 'common:logout' %}">{{user.username}}(logout)</a>
-    {% else %}
-    <a href="{% url 'common:login' %}">Login</a>
-    {% endif %}
-
-    <!-- 회원가입 -->
-    {% if not user.is_authenticated %}
-    <a href="{% url 'common:signup' %}">Sign up</a>
-    {% endif %}
 
     <!-- 주식변동사항 입력 폼 -->
-    <form action="/" method="post" class="bg-light">
+    <form action="/" method="post" class="">
     {% csrf_token %}
         {% for field in form %}
-            <div class="form-control {% if field.errors %}errors{% endif %}">
+            <div class="form-control {% if field.errors %}errors{% endif %} bg-light">
                 {{field.label_tag}}
                 {{field}}
                 {{field.errors}}
             </div>
         {% endfor %}
-        <button>submit</button>
+        <button class="btn btn-dark">submit</button>
     </form>
-    <hr>
 
     <!-- 보유주식목록 -->
     <div class="stock-list bg-light">
@@ -38,13 +24,14 @@
     </ul>
     <p>총 {{total_asset}} 원</p>
     </div>
-    <hr>
 
     <!-- 주식변동내역 -->
+    <div class="bg-light">
     <h2>주식변동내역</h2>
     <ul>
     {% for stock in stock_change %}
         <li>{{stock.name}}: {{stock.amount}} ({{stock.current_date}})</li>
     {% endfor %}
     </ul>
+    </div>
 {% endblock %}
