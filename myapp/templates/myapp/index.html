@@ -15,7 +15,7 @@
     {% endif %}
 
     <!-- 주식변동사항 입력 폼 -->
-    <form action="/" method="post">
+    <form action="/" method="post" class="bg-light">
     {% csrf_token %}
         {% for field in form %}
             <div class="form-control {% if field.errors %}errors{% endif %}">
@@ -29,6 +29,7 @@
     <hr>
 
     <!-- 보유주식목록 -->
+    <div class="stock-list bg-light">
     <h2>주식목록</h2>
     <ul>
         {% for stock in stock_holding %}
@@ -36,6 +37,7 @@
         {% endfor %}
     </ul>
     <p>총 {{total_asset}} 원</p>
+    </div>
     <hr>
 
     <!-- 주식변동내역 -->
