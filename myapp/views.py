@@ -100,3 +100,5 @@ def stock_code_to_price(code):
     price = element.get_text()
     return price
 
+def stock_list(request):
+    return render(request, 'myapp/stock_list.html')

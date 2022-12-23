@@ -10,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
     <!-- asset manager CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    {% block morehead %}
+    {% endblock %}
 </head>
 <body>
     {% include "navbar.html" %}
