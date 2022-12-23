@@ -16,7 +16,7 @@
 
     <!-- 보유주식목록 -->
     <div class="stock-list bg-light">
-    <h2>주식목록</h2>
+    <h2><a href="{% url 'myapp:stock-list' %}">주식목록</a></h2>
     <ul>
         {% for stock in stock_holding %}
         <li>{{stock.stock_info.name}} ({{stock.stock_info.current_price}}원): {{stock.amount}}주 (총 {{stock.total_price}}원)({{stock.percentage}}%)</li>
