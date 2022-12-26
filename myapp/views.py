@@ -5,6 +5,7 @@ from django.db.models import Sum
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup as bs
+from json import dumps
 
 from .forms import StockChangeForm
 from .models import Stock_change, Stock_holding, Stock_info
@@ -101,4 +102,13 @@ def stock_code_to_price(code):
     return price
 
 def stock_list(request):
-    return render(request, 'myapp/stock_list.html')
+    stock_holding = Stock_holding.objects.filter(owner =request.user)
+    print(stock_holding)
+    stock_list = []
+    for stock in stock_holding:
+        stock_list.append({'name': stock.stock_info.name, 'y': stock.percentage})
+    stock_data_dic = {'stock_list': stock_list}
+    dataJSON = dumps(stock_data_dic)
+    return render(request, 'myapp/stock_list.html',{
+        "data": dataJSON,
+    })
