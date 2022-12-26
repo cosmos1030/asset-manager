@@ -5,10 +5,9 @@ from django.db.models import Sum
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup as bs
-from json import dumps
 
-from .forms import StockChangeForm
-from .models import Stock_change, Stock_holding, Stock_info
+from ..forms import StockChangeForm
+from ..models import Stock_change, Stock_holding, Stock_info
 
 
 @csrf_exempt
@@ -17,6 +16,9 @@ def index(request):
         return HttpResponseRedirect("common/login/")
     if request.method == 'GET':
         form = StockChangeForm()
+        stock_holding = Stock_holding.objects.filter(owner =request.user)
+        for stock in stock_holding:
+            get_stock_info(stock.stock_info.name)
         stock_holding = Stock_holding.objects.filter(owner =request.user)
         stock_change = Stock_change.objects.filter(owner =request.user)
         total_asset = get_total_asset(stock_holding)
@@ -69,7 +71,7 @@ def get_stock_info(name):
     price = int(price.replace(',', ''))
     try:
         stock_info = Stock_info.objects.get(name=name)
-        stock_info.price = price
+        stock_info.current_price = price
     except:
         stock_info = Stock_info(name=name, code=code, current_price= price)
     stock_info.save()
@@ -101,14 +103,3 @@ def stock_code_to_price(code):
     price = element.get_text()
     return price
 
-def stock_list(request):
-    stock_holding = Stock_holding.objects.filter(owner =request.user)
-    print(stock_holding)
-    stock_list = []
-    for stock in stock_holding:
-        stock_list.append({'name': stock.stock_info.name, 'y': stock.percentage})
-    stock_data_dic = {'stock_list': stock_list}
-    dataJSON = dumps(stock_data_dic)
-    return render(request, 'myapp/stock_list.html',{
-        "data": dataJSON,
-    })
