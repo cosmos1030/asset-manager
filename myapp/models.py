@@ -14,7 +14,7 @@ class Stock_change(models.Model):
 
 class Stock_info(models.Model):
     name = models.CharField(max_length=100)
-    code = models.IntegerField()
+    code = models.CharField(max_length=20)
     current_price = models.IntegerField()
     current_date = models.DateField(auto_now_add=True)
 
