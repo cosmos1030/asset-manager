@@ -19,7 +19,7 @@
     <h2><a href="{% url 'myapp:stock-list' %}">주식목록</a></h2>
     <ul>
         {% for stock in stock_holding %}
-        <li><a href="{% url 'myapp:stock-info' stock.stock_info.code %}">{{stock.stock_info.name}}</a> ({{stock.stock_info.current_price}}원): {{stock.amount}}주 (총 {{stock.total_price}}원)({{stock.percentage}}%)</li>
+        <li><a href="{% url 'myapp:stock-page' stock.stock_info.code %}">{{stock.stock_info.name}}</a> ({{stock.stock_info.current_price}}원): {{stock.amount}}주 (총 {{stock.total_price}}원)({{stock.percentage}}%)</li>
         {% endfor %}
     </ul>
     <p>총 {{total_asset}} 원</p>
