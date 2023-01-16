@@ -34,6 +34,7 @@ class Stock_holding(models.Model):
 
 class Stock_post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    code = models.CharField(max_length=20)
     subject = models.CharField(max_length=100)
     content = models.TextField()
     create_date = models.DateTimeField(auto_now_add = True)
