@@ -21,7 +21,7 @@
                 {{ post_list.paginator.count|sub:post_list.start_index|sub:forloop.counter0|add:1 }}
             </td>
             <td>
-                <a href="{% url 'myapp:detail' post.id %}">{{ post.subject }}</a>
+                <a href="{% url 'myapp:detail' stock_code post.id %}">{{ post.subject }}</a>
                 {% if post.answer_set.count > 0 %}
                 <span class="text-danger small mx-2">{{ post.answer_set.count }}</span>
                 {% endif %}
@@ -74,6 +74,6 @@
         {% endif %}
     </ul>
     <!-- 페이징처리 끝 -->
-    <a href="{% url 'myapp:post_create' %}" class="btn btn-primary">질문 등록하기</a>
+    <a href="{% url 'myapp:post-create' stock_code %}" class="btn btn-primary">질문 등록하기</a>
 </div>
 {% endblock %}

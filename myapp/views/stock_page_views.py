@@ -12,7 +12,7 @@ def stock_page(request, code):
     post_list = Stock_post.objects.order_by('-create_date')
     paginator = Paginator(post_list, 10)
     page_obj = paginator.get_page(page)
-    context = {'post_list': page_obj, 'stock_name': stock_info.name}
+    context = {'post_list': page_obj, 'stock_name': stock_info.name, 'stock_code': stock_info.code}
     return render(request, "myapp/stock_page.html", context)
 
 def post_create(request,code):
@@ -22,8 +22,13 @@ def post_create(request,code):
             post = form.save(commit=False)
             post.author = request.user  # author 속성에 로그인 계정 저장
             post.save()
-            return redirect('myapp:stock-page/code')
+            return redirect('myapp:stock-page', code)
     else:
         form = PostForm()
     context = {'form': form}
     return render(request, 'myapp/post_form.html', context)
+
+def detail(request, code, num):
+    post_detail = Stock_post.objects.get(id=num)
+    context = {'post_detail': post_detail}
+    return render(request, 'myapp/detail.html', context)
