@@ -128,7 +128,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-cosmos1030-assetmanager-2w4px5e9cdk.ws-us80.gitpod.io', 'https://8000-cosmos1030-assetmanager-5p58ngsedom.ws-us82.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io']
 
 LOGIN_REDIRECT_URL = '/'
 
